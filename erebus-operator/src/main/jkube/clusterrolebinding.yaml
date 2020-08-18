@@ -12,5 +12,5 @@ roleRef:
   name: erebus
 subjects:
   - kind: ServiceAccount
-    name: erebus
-    namespace: default
+    name: shyrka-erebus
+    namespace: shyrka-erebus-operators

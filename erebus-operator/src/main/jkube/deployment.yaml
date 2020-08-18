@@ -1,9 +1,17 @@
-labels:
-  io.shyrka: ""
-  io.shyrka.erebus/hypnos: "v1alpha1"
-  app: shyrka-erebus
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: erebus-operators
+  labels:
+    io.shyrka: ""
+    io.shyrka.erebus/hypnos: "v1alpha1"
+    app: shyrka-erebus
 spec:
   replicas: 1
   template:
+    metadata:
+      labels:
+        io.shyrka: ""
+        io.shyrka.erebus/hypnos: "v1alpha1"
     spec:
-      serviceAccount: erebus
+      serviceAccount: shyrka-erebus
