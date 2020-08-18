@@ -210,7 +210,7 @@ public class HypnosWatcher {
         wakeupJob.getJobDataMap().put(HypnosJob.TARGETED_LABEL,hypnos.getSpec().getTargetedLabel());
         wakeupJob.getJobDataMap().put(HypnosJob.RESOURCE_TYPE, String.join(", ", hypnos.getSpec().getResourceType()));
         wakeupJob.getJobDataMap().put(HypnosJob.ACTION_CRON, jobAction);
-
+        wakeupJob.getJobDataMap().put(HypnosJob.HYPNOS_NAME, hypnos.getMetadata().getName());
         //
         wakeupJob.getJobDataMap().put(HypnosJob.EXECUTION_COUNT, 0);
         if("wakeup".equals(jobAction)){
