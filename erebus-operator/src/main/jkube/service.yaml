@@ -1,0 +1,9 @@
+metadata:
+  labels:
+    io.shyrka: ""
+    io.shyrka.erebus/hypnos: "v1alpha1"
+    app: shyrka-erebus
+  annotations:
+    api.service.kubernetes.io/path: /
+spec:
+  type: ClusterIP
