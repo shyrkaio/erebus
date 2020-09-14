@@ -7,15 +7,15 @@ metadata:
     io.shyrka.erebus/hypnos: "v1alpha1"
     app: shyrka-erebus
 rules:
-  - apiGroups: [""]
-    resources: ["namespace"]
+  - apiGroups: []
+    resources: ["namespaces"]
     verbs: ["list"]
-  - apiGroups: [""]
+  - apiGroups: ["extensions"',"apps"]
     resources: ["deployments"]
-    verbs: ["list", "update"]
-  - apiGroups: [""]
-    resources: ["statefullset"]
-    verbs: ["list", "update"]
+    verbs: ["list", "get", "update"]
+  - apiGroups: ["extensions","apps"]
+    resources: ["statefulsets"]
+    verbs: ["list", "get", "update"]
   - apiGroups: [""]
     resources: ["events"]
     verbs: ["create"]

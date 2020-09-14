@@ -70,7 +70,7 @@ metadata:
   name: hypnos-020
   namespace: hypnos-smp-020
   labels:
-    io.shyrka.erebus/hypnos: "sample020"
+    io.shyrka.erebus/hypnos: "sample"
     io.shyrka.erebus/role: "test"
 spec:
   scaleTargetRef:
