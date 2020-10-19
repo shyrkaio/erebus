@@ -42,7 +42,7 @@ spec:
                   nullable: false
                   items:
                     type: string
-                    enum: [Deployment, HorizontalPodAutoscaler, StatefulSet]
+                    enum: [Deployment, StatefulSet]
                 cron-type:
                   type: string
                   enum: [unix, quartz]
