@@ -24,7 +24,7 @@ This is a personal wannabe community project.
 
 ## Hypnos
 
-Hypnos will scale down the resources at a certain frequences (define by sleep-cron) and scale it up at a certain frequences (define by wakeup-cron)
+Hypnos will scale down the resources at a certain frequencies (define by sleep-cron) and scale it up at a certain frequencies (define by wakeup-cron)
   
   You can create Hypnos strategy like this :
   
@@ -38,29 +38,28 @@ spec:
   namespaceTargetedLabel: "io.shyrka.erebus/hypnos=sample010"
   resourceType:
     - "Deployment"
-    - "StatefulSet" #not-implemented-yet
+    - "StatefulSet"
   targetedLabel: "io.shyrka.erebus/hypnos=sample"
   # this is for testing regular cron should be
   wakeup-cron: "0/5 * * * *"
   sleep-cron:  "0/2 * * * *"
-
-  #not-implemented-yet
-  load-policy: no-action #not-implemented-yet
-  dry-run: false #not-implemented-yet
-  pause: false #not-implemented-yet
+  load-policy: no-action 
+  dry-run: false 
+  pause: false 
   comments: "just a simple comments"
 ```
 
   - <i>namespaceTargetedLabel</i> : define the label used for the targeted namespaces 
-  - <i>resourceType</i> : define the resources that will be scale down and up within the targeted namespaces
+  - <i>resourceType</i> : list that define the resources that will be scale down and up within the targeted namespaces ["Deployment", "StatefulSet", "DeploymentConfig"]
   - <i>targetedLabel</i> : define the label used for the targeted resources within the targeted namespaces
-  - <i>sleep-cron</i> : define the cron frequence of the scale-down
-  - <i>wakeup-cron</i> : define the cron frequence of the scale-up
-  - <i>load-policy</i> : define the action made after an update of the Hypnos strategy (run-sleep-on-change, run-wake-up-on-change, no-action)
-  - <i>dry-run</i> : only update the status to see the targeted resources
-  - <i>pause</i> : stop the hypnos strategy to be apply
+  - <i>sleep-cron</i> : define the cron frequency of the scale-down
+  - <i>wakeup-cron</i> : define the cron frequency of the scale-up
+  - _<i>load-policy</i> : define the action made after an update of the Hypnos strategy (run-sleep-on-change, run-wake-up-on-change, no-action) (not implemented yet)_
+  - _<i>dry-run</i> : only update the status to see the targeted resources (not implemented yet)_
+  - _<i>pause</i> : stop the hypnos strategy to be apply (not implemented yet)_
   - <i>comments</i> : is for inner comments
 
+To see [more hypnos examples](erebus-operator/src/hypnos-scenarios/ReadMe.md)
 
 ## Installation
 
@@ -97,7 +96,7 @@ clear
 Create the CRD (Custom Resource Definition)
 
 ```bash
-kubectl apply -f erebus-operator/src/main/crd/
+kubectl apply -f erebus-operator/src/main/resources/hypnos.crd.yaml
 ```
 
 Build the java application
@@ -110,13 +109,13 @@ mvn package -pl erebus-operator -Dquarkus.container-image.registry=$REG_HOST
 
 Build the container locally and push it to your registry
 ```bash
-mvn k8s:build k8s:push -Pkubernetes \ 
+mvn k8s:build k8s:push -Pkubernetes \
           -pl erebus-operator \
-          -Djkube.build.strategy=jib \ 
+          -Djkube.build.strategy=jib \
           -Djkube.docker.registry=$REG_HOST \
-          -Djkube.image.name=$REG_IMG_HOST:latest \
+          -Djkube.image.name=$REG_IMG_HOST \
           -Djkube.docker.push.registry=$REG_HOST \
-          -Dquarkus.container-image.registry=$REG_HOST \ 
+          -Dquarkus.container-image.registry=$REG_HOST \
           -Dquarkus.container-image.build=true  
           #-Dmaven.test.skip=true
 ```
@@ -136,6 +135,11 @@ mvn k8s:resource k8s:apply -Pkubernetes \
 ```
 
 you can see operator logs with `kubectl logs -l app=erebus-operator -n shyrka-erebus-operators -f`
+
+You can test your installation with 
+```
+kubectl apply -f erebus-operator/src/hypnos-scenarios/usecase-010/
+```
 
 ### from helm 
 @Todo

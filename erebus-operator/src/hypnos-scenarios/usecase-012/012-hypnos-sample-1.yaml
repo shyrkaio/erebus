@@ -1,10 +1,10 @@
 
-apiVersion: shyrkaio.github.io/v1alpha1
+apiVersion: shyrkaio.github.io/v1alpha2
 kind: Hypnos
 metadata:
-  name: test-011
+  name: test-012
   labels:
-    io.shyrka.erebus/hypnos: "sample010"
+    io.shyrka.erebus/hypnos: "sample012"
     io.shyrka.erebus/role: "test"
   annotations:
     io.shyrkaio.github.erebus/hypnos: "{}"
@@ -21,4 +21,4 @@ spec:
   load-policy: no-action #not-implemented-yet
   dry-run: false
   pause: false #not-implemented-yet
-  comments: "just a simple comments"
+  comments: "Start/stop several Deployments correctly labelled in a namespace correctly labelled  every 5 and 2 minutes"

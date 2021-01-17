@@ -4,7 +4,7 @@ kind: CustomResourceDefinition
 metadata:
   labels:
     io.shyrka: ""
-    io.shyrka.erebus/hypnos: "v1alpha1"
+    io.shyrka.erebus/hypnos: "v1alpha2"
     app: shyrka-erebus
   name: hypnox.shyrkaio.github.io
 spec:
@@ -16,7 +16,7 @@ spec:
     singular: hypnos
   scope: Cluster
   versions:
-    - name: v1alpha1
+    - name: v1alpha2
       # Each version can be enabled/disabled by Served flag.
       served: true
       # One and only one version must be marked as the storage version.
@@ -42,7 +42,7 @@ spec:
                   nullable: false
                   items:
                     type: string
-                    enum: [Deployment, StatefulSet]
+                    enum: [Deployment, StatefulSet, DeploymentConfig]
                 cron-type:
                   type: string
                   enum: [unix, quartz]
@@ -50,13 +50,13 @@ spec:
                 wakeup-cron:
                   nullable: false
                   type: string
-                  pattern: '(((\d+,)+\d+|(\d+(\/|-)\d+)|\d+|\*) ?){5,7}'
+                  pattern: '(((\d+,)+\d+|(\d+(\/|-)\d+)|\d?|\d+|\*) ?){5,7}'
                   # I wonder if a default is a good idea
                   #default: "5 0 * * *"
                 sleep-cron:
                   type: string
                   nullable: false
-                  pattern: '(((\d+,)+\d+|(\d+(\/|-)\d+)|\d+|\*) ?){5,7}'
+                  pattern: '(((\d+,)+\d+|(\d+(\/|-)\d+)|\d?|\d+|\*) ?){5,7}'
                   # I wonder if a default is is a good idea
                   #default: "5 0 * * *"
                 load-policy: # not-implemented-yet

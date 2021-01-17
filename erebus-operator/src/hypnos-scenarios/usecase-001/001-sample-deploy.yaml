@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: hypnos-smp-030
+  name: hypnos-smp-001
   labels:
-    app: hypnos-030
-    io.shyrka.erebus/hypnos: "sample030"
+    app: hypnos-001
+    io.shyrka.erebus/hypnos: "sample001"
     io.shyrka.erebus/role: "test"
 spec:
   finalizers:
@@ -16,10 +16,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mongo
-  namespace: hypnos-smp-030
+  namespace: hypnos-smp-001
   labels:
-    app: hypnos-030
-    io.shyrka.erebus/hypnos: "sample"
+    app: hypnos-001
+    io.shyrka.erebus/hypnos: "no-sample"
     io.shyrka.erebus/role: "test"
 spec:
   ports:
@@ -33,9 +33,9 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mongo-init
-  namespace: hypnos-smp-030
+  namespace: hypnos-smp-001
   labels:
-    app: hypnos-030
+    app: hypnos-001
     io.shyrka.erebus/role: "test"
 data:
   init.sh: |
@@ -90,10 +90,10 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mongo
-  namespace: hypnos-smp-030
+  namespace: hypnos-smp-001
   labels:
-    #app: hypnos-030
-    io.shyrka.erebus/hypnos: "sample"
+    #app: hypnos-001
+    io.shyrka.erebus/hypnos: "no-sample"
     io.shyrka.erebus/role: "test"
 spec:
   serviceName: "mongo"
@@ -142,7 +142,7 @@ spec:
     - metadata:
         name: mng-data
         labels:
-          app: hypnos-030
+          app: hypnos-001
           io.shyrka.erebus/role: "test"
       spec:
         accessModes: [ "ReadWriteOnce" ]

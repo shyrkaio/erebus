@@ -33,6 +33,10 @@ public class Hypnos extends CustomResource {
         this.status = status;
 
     }
+    @Override
+    public String getApiVersion() {
+        return "shyrkaio.github.io/v1alpha1";
+    }
 
     @Override
     public String toString(){

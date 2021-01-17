@@ -65,15 +65,15 @@ public class HypnosWatcher {
                     return;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
-                //System.exit(-1);
+                _log.log(Level.SEVERE, this.getClass() + " crash ", e);
+                System.exit(-1);
             }
 
     }
 
     public void listThenWatch(BiConsumer<Watcher.Action, String> callback)  {
         CustomResourceDefinitionContext crdDefinitionContext = new CustomResourceDefinitionContext.Builder()
-                    .withVersion("v1alpha1")
+                    .withVersion("v1alpha2")
                     .withScope("Cluster")
                     .withGroup("shyrkaio.github.io")
                     .withPlural("hypnox")
@@ -96,21 +96,21 @@ public class HypnosWatcher {
                     }
                     _log.fine("Received " + action + " for resource " + hypnos);
                     if (action == Action.ADDED) {
-                        _log.fine("Added " + action + " for resource " + hypnos);
+                        _log.info("Added " + action + " for resource " + hypnos);
                         cache.put(uid, hypnos);
                         handleAddedEvent(action, hypnos);
 
                     } else if (action == Action.MODIFIED) {
 
-                            _log.fine("Modified " + action + " for resource " + hypnos);
+                            _log.info("Modified " + action + " for resource " + hypnos);
                         cache.put(uid, hypnos);
                         handleModifiedEvent(action, hypnos);
                     } else if (action == Action.DELETED) {
-                        _log.fine("Deleted " + action + " for resource " + hypnos);
+                        _log.info("Deleted " + action + " for resource " + hypnos);
                         cache.remove(uid);
                         handleRemovedEvent(action, hypnos);
                     } else {
-                        _log.fine("Received unexpected " + action + " event for " + hypnos);
+                        _log.warning("Received unexpected " + action + " event for " + hypnos);
                         System.exit(-1);
                     }
                     executor.execute(() -> callback.accept(action, uid));
@@ -147,7 +147,7 @@ public class HypnosWatcher {
                 .build();
         Trigger sleepTrigger = newTrigger()
                 .withIdentity(hypnos.getMetadata().getName()+"-sleep", "hypnos.shyrkaio.github.io")
-                .withSchedule(cronSchedule(cronScheduleConvert(hypnos.getSpec().getWakeupCron())))
+                .withSchedule(cronSchedule(cronScheduleConvert(hypnos.getSpec().getSleepCron())))
                 .build();
 
         try {
@@ -171,7 +171,7 @@ public class HypnosWatcher {
                 .withSchedule(cronSchedule(cronScheduleConvert(hypnos.getSpec().getWakeupCron())))
                 .build();
 
-        configureJob(hypnos, wakeupJob, "wakeup");
+        configureJob(hypnos, wakeupJob,HypnosJobAction.ACTION_CRON_WAKEUP);
 
 
 
@@ -179,7 +179,7 @@ public class HypnosWatcher {
                 .withIdentity(hypnos.getMetadata().getName()+"-sleep", "hypnos.shyrkaio.github.io")
                 .build();
 
-        configureJob(hypnos, sleepJob,"sleep");
+        configureJob(hypnos, sleepJob,HypnosJobAction.ACTION_CRON_SLEEP);
 
         Trigger sleepTrigger = newTrigger()
                 .withIdentity(hypnos.getMetadata().getName()+"-sleep", "hypnos.shyrkaio.github.io")
@@ -202,7 +202,9 @@ public class HypnosWatcher {
         if(cronVal[2].equals(cronVal[3]) && cronVal[3].equals("*")){
             cronVal[2]="?";
         }
-        return "5 "+String.join(" ", cronVal)+"";
+        String quartzcronval="5 "+String.join(" ", cronVal)+"";
+        _log.fine("quartzcronval : "+quartzcronval +"# check at https://www.freeformatter.com/cron-expression-generator-quartz.html");
+        return quartzcronval;
     }
 
     private HypnosWatcher configureJob(Hypnos hypnos, JobDetail wakeupJob, String jobAction) {
@@ -212,7 +214,7 @@ public class HypnosWatcher {
         wakeupJob.getJobDataMap().put(HypnosJob.ACTION_CRON, jobAction);
         wakeupJob.getJobDataMap().put(HypnosJob.HYPNOS_NAME, hypnos.getMetadata().getName());
         //
-        wakeupJob.getJobDataMap().put(HypnosJob.EXECUTION_COUNT, 0);
+
         if("wakeup".equals(jobAction)){
             wakeupJob.getJobDataMap().put(HypnosJob.DEFINED_CRON, hypnos.getSpec().getWakeupCron());
         }else if("sleep".equals(jobAction)) {
