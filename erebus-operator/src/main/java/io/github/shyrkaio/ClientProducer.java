@@ -23,22 +23,22 @@ public class ClientProducer {
     @Singleton
     MixedOperation<Hypnos, HypnosList, HypnosDoneable, Resource<Hypnos, HypnosDoneable>>
 
-    makeCustomResourceClient(KubernetesClient defaultClient) {
+            makeCustomResourceClient(KubernetesClient defaultClient) {
         KubernetesDeserializer.registerCustomKind("io.github.shyrkaio.operator/v1alpha1", "Hypnos",
                 Hypnos.class);
 
         CustomResourceDefinitionContext crdDefinitionContext = new CustomResourceDefinitionContext.Builder()
-                .withVersion("v1alpha1")
+                .withVersion("v1alpha2")
                 .withScope("Cluster")
-                .withGroup("demo.k8s.io")
-                .withPlural("podsets")
+                .withGroup("shyrkaio.github.io")
+                .withPlural("hypnox")
                 .build();
 
-        MixedOperation<Hypnos, HypnosList, HypnosDoneable, Resource<Hypnos, HypnosDoneable>> hypnosHypnosListHypnosDoneableResourceMixedOperation =
-                defaultClient.customResources(crdDefinitionContext,
-                                               Hypnos.class,
-                                               HypnosList.class,
-                                               HypnosDoneable.class);
+        MixedOperation<Hypnos, HypnosList, HypnosDoneable, Resource<Hypnos, HypnosDoneable>> hypnosHypnosListHypnosDoneableResourceMixedOperation = defaultClient
+                .customResources(crdDefinitionContext,
+                        Hypnos.class,
+                        HypnosList.class,
+                        HypnosDoneable.class);
         return hypnosHypnosListHypnosDoneableResourceMixedOperation;
     }
 
@@ -48,24 +48,23 @@ public class ClientProducer {
         return new DefaultKubernetesClient().inNamespace(namespace);
     }
 
-    @Produces
     @Singleton
     @Named("Namespace")
     public String findMyCurrentNamespace() {
-        String currentNS = System.getProperty("io.shyrka.hypnos.ns","");
-        if (!currentNS.isBlank()){
+        String currentNS = System.getProperty("io.shyrka.hypnos.ns", "");
+        if (!currentNS.isBlank()) {
             return currentNS;
         }
 
         File serviceaccountNamespace = new File("/var/run/secrets/kubernetes.io/serviceaccount/namespace");
-        if (serviceaccountNamespace.exists() && serviceaccountNamespace.isFile()){
-        try {
-            currentNS = new String(Files.readAllBytes(Paths.get(serviceaccountNamespace.getPath())));
-            return currentNS;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "";
-        }
+        if (serviceaccountNamespace.exists() && serviceaccountNamespace.isFile()) {
+            try {
+                currentNS = new String(Files.readAllBytes(Paths.get(serviceaccountNamespace.getPath())));
+                return currentNS;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "";
+            }
         }
         System.err.println("no value define for current Namespace");
         return "";

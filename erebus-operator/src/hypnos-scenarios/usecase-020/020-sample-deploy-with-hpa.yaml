@@ -17,9 +17,10 @@ kind: Deployment
 metadata:
   annotations:
     deployment.kubernetes.io/revision: "1"
+    #io.shyrka.erebus.hypnos/skipCron: "true"
   generation: 1
   labels:
-    io.shyrka.erebus/hypnos: "sample020"
+    io.shyrka.erebus/hypnos: "sample"
     io.shyrka.erebus/role: "test"
     app: hypnos-020
   name: hypnos-020
@@ -43,7 +44,7 @@ spec:
         app: hypnos-020
     spec:
       containers:
-        - image: kanedafromparis/nginx:ocp-0.3
+        - image: quay.io/kanedafromparis/nginx:ocp-0.3
           imagePullPolicy: IfNotPresent
           name: nginx
           resources:
@@ -63,37 +64,28 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 5
+
 ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
   name: hypnos-020
-  namespace: hypnos-smp-020
   labels:
-    io.shyrka.erebus/hypnos: "sample020"
+    io.shyrka.erebus/hypnos: "sample"
     io.shyrka.erebus/role: "test"
+    app: hypnos-020
+  namespace: hypnos-smp-020
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: hypnos-020
   minReplicas: 2
-  maxReplicas: 4
+  maxReplicas: 10
   metrics:
     - type: Resource
       resource:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: 20
-#    - type: Object
-#      object:
-#        metric:
-#          name: requests-per-second
-#        describedObject:
-#          apiVersion: networking.k8s.io/v1beta1
-#          kind: Ingress
-#          name: main-route
-#        target:
-#          type: Value
-#          value: 10
+          averageUtilization: 50

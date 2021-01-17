@@ -1,0 +1,16 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: erebus
+  labels:
+    io.shyrka: ""
+    io.shyrka.erebus/hypnos: "v1alpha2"
+    app: shyrka-erebus
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: erebus
+subjects:
+  - kind: ServiceAccount
+    name: shyrka-erebus
+    namespace: shyrka-erebus-operators

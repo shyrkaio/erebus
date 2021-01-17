@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hypnos-smp-000
+  labels:
+    app: hypnos-030
+#    io.shyrka.erebus/hypnos: "sample000"
+#    io.shyrka.erebus/role: "test"
+spec:
+  finalizers:
+    - kubernetes
+status:
+  phase: Active
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+    #io.shyrka.erebus.hypnos/skipCron: "true"
+  generation: 1
+  labels:
+    io.shyrka.erebus/hypnos: "sample"
+    io.shyrka.erebus/role: "test"
+    app: hypnos-000
+  name: hypnos-000
+  namespace: hypnos-smp-000
+spec:
+  progressDeadlineSeconds: 100
+  replicas: 3
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: hypnos-000
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: hypnos-000
+    spec:
+      containers:
+        - image: quay.io/kanedafromparis/nginx:ocp-0.3
+          imagePullPolicy: IfNotPresent
+          name: nginx
+          resources:
+            requests:
+              cpu: 200m
+              memory: 16M
+            limits:
+              cpu: 250m
+              memory: 24M
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 5
