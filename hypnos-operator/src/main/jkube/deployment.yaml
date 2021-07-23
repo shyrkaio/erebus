@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shyrka-hypnos
+  labels:
+    io.shyrka: ""
+    io.shyrka.erebus/hypnos: "v1alpha3"
+    app: shyrka-hypnos
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        io.shyrka: ""
+        io.shyrka.erebus/hypnos: "v1alpha3"
+    spec:
+      serviceAccount: shyrka-hypnos

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: shyrka-hypnos
+  labels:
+    io.shyrka: ""
+    io.shyrka.erebus/hypnos: "v1alpha3"
+    app: shyrka-hypnos
+  annotations:
+    api.service.kubernetes.io/path: /
+spec:
+  ports:
+    - name: http
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: shyrka-hypnos
+  sessionAffinity: None
+  type: ClusterIP

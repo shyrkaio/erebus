@@ -1,0 +1,31 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: hypnos
+  labels:
+    io.shyrka: ""
+    io.shyrka.erebus/hypnos: "v1alpha3"
+    app: shyrka-hypnos
+rules:
+  - apiGroups: [""]
+    resources: ["namespaces"]
+    verbs: ["list"]
+  - apiGroups: ["extensions","apps"]
+    resources: ["deployments"]
+    #@TODO I would like to remove "create" in order to only allows edition to an already existing deployment.
+    # but current methode I use "
+    verbs: ["create", "patch", "list", "get", "update"]
+  - apiGroups: ["extensions","apps"]
+    resources: ["statefulsets"]
+    verbs: ["create", "patch", "list", "get", "update"]
+####### For Openshift #####
+  - apiGroups: ["apps.openshift.io"]
+    resources: ["deploymentconfigs"]
+    verbs: ["create", "patch", "list", "get", "update"]
+####### For Openshift #####
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["create"]
+  - apiGroups: ["shyrkaio.github.io"]
+    resources: ["hypnox"]
+    verbs: ["watch","list", "update"]

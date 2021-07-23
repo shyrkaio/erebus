@@ -1,0 +1,18 @@
+
+apiVersion: shyrkaio.github.io/v1alpha3
+kind: Hypnos
+metadata:
+  name: test-044
+  labels:
+    io.shyrka.erebus/hypnos: "sample044"
+    io.shyrka.erebus/role: "test"
+spec:
+  namespaceTargetedLabel: "io.shyrka.erebus/hypnos=sample044"
+  targetedLabel: "io.shyrka.erebus/hypnos=sample"
+  resourceType:
+    - "StatefulSet"
+    - "Deployment"
+  # this is for testing regular cron should be
+  wakeup-cron: "0/5 * * * *"
+  sleep-cron:  "0/2 * * * *"
+  comments: ""

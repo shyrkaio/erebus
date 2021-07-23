@@ -1,4 +1,4 @@
-package io.github.shyrkaio;
+package io.github.shyrkaio.hypnos;
 
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
@@ -11,16 +11,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class ClientProducer {
-
+@Singleton
+public class KubernetesClientProducer {
 
     @Produces
-    @Singleton
-    KubernetesClient makeDefaultClient(@Named("Namespace") String namespace) {
-        return new DefaultKubernetesClient().inNamespace(namespace);
+    public KubernetesClient kubernetesClient() {
+        // here you would create a custom client
+        return new DefaultKubernetesClient();
     }
 
-    @Singleton
     @Named("Namespace")
     public String findMyCurrentNamespace() {
         String currentNS = System.getProperty("io.shyrka.hypnos.ns", "");

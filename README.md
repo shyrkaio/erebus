@@ -16,7 +16,7 @@ Erebus is one of the kubernetes operator of the shyrka project.
 If you want to know more about the [shyrka project](https://shyrka.io).
 
 This is a personal wannabe community project.
-- Hypnos - cron scale down and up for Deployment, StatefulSet [<a href="https://en.wikipedia.org/wiki/Hypnos">about the name</a>]</small>
+- Hypnos - cron scale down and up for Deployment, StatefulSet <small>[<a href="https://en.wikipedia.org/wiki/Hypnos">about the name</a>]</small>
 - CaiusPupus - conformity check (Not implemented yet)<small>[<a href="https://en.wikipedia.org/wiki/Caius_Pupus">about the name</a>]</small>
 - Lethe - Project ownership reminder (Not implemented yet)<small>[<a href="https://en.wikipedia.org/wiki/Lethe">about the name</a>]</small>
 - Moros - backup (Not implemented yet) <small>[<a href="https://en.wikipedia.org/wiki/Moros">about the name</a>]</small>
@@ -102,7 +102,7 @@ kubectl apply -f erebus-operator/src/main/resources/hypnos.crd.yaml
 Build the java application
 
 ```bash
-mvn package -pl erebus-operator -Dquarkus.container-image.registry=$REG_HOST 
+mvn package -pl hypnos-operator -Dquarkus.container-image.registry=$REG_HOST 
 # test are in progress so you might need
 #-Dmaven.test.skip=true
 ```
@@ -110,7 +110,7 @@ mvn package -pl erebus-operator -Dquarkus.container-image.registry=$REG_HOST
 Build the container locally and push it to your registry
 ```bash
 mvn k8s:build k8s:push -Pkubernetes \
-          -pl erebus-operator \
+          -pl hypnos-operator \
           -Djkube.build.strategy=jib \
           -Djkube.docker.registry=$REG_HOST \
           -Djkube.image.name=$REG_IMG_HOST \

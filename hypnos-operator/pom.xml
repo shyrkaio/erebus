@@ -7,7 +7,7 @@
     <artifactId>erebus-parent</artifactId>
     <version>1.0.3-SNAPSHOT</version>
   </parent>
-  <artifactId>erebus-operator</artifactId>
+  <artifactId>hypnos-operator</artifactId>
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -31,6 +31,11 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-health</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-test-kubernetes-client</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
