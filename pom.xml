@@ -10,7 +10,7 @@
     <module>erebus-operator</module>
   </modules>
   <properties>
-    <compiler-plugin.version>3.8.1</compiler-plugin.version>
+    <compiler-plugin.version>3.10.0</compiler-plugin.version>
     <jkube-plugin.version>1.5.1</jkube-plugin.version>
     <maven.compiler.parameters>true</maven.compiler.parameters>
     <maven.compiler.source>11</maven.compiler.source>
